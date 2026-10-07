@@ -1,0 +1,44 @@
+{
+  "name": "Kasra Alizadeh",
+  "jobTitle": "Telecommunication Engineer & AI Software Developer",
+  "description": "Kasra Alizadeh: telecommunication engineer and AI software developer. Research in signal processing and communication systems, projects, and blog.",
+  "heroLine": "I design receivers that pull clean information out of noisy signals, in radios, networks, and even plants.",
+  "profile": "Telecommunication engineer and AI software developer experienced in software development, machine learning, and signal processing for communication systems. A fast learner who tackles complex problems with persistence and analytical rigor to deliver precise, dependable solutions. Proactive and adaptable, I thrive in diverse teams and continuously expand my technical expertise. Highly self-driven and quick to master unfamiliar domains, I take full ownership of challenging problems and see them through to robust, well-engineered solutions.",
+  "researchInterests": "I apply communication and information theory to biological and nanoscale systems. My focus is receiver design: extracting reliable information from noisy biological signals, with interests in bioelectrical and molecular communication, nanonetworks, and machine-learning-based detection that is accurate and light enough to run in real time.",
+  "interestTags": [
+    "Receiver design",
+    "Bioelectrical communication",
+    "Nanonetworks",
+    "Signal processing",
+    "ML-based detection"
+  ],
+  "email": "k.alizadeh.dev@gmail.com",
+  "location": "Cologno Monzese (MI), Italy",
+  "photo": "/images/profile.jpg",
+  "photoAlt": "Portrait of Kasra Alizadeh",
+  "cv": "/Kasra_Alizadeh_CV.pdf",
+  "links": {
+    "linkedin": "https://www.linkedin.com/in/kasra-alizadeh",
+    "github": "https://github.com/KasraAlizadeh",
+    "scholar": "https://scholar.google.com/citations?user=POgKEpYAAAAJ",
+    "orcid": "https://orcid.org/0009-0005-7468-0488"
+  },
+  "facts": [
+    {
+      "k": "Now",
+      "v": "M.Sc. Telecommunication Engineering, Politecnico di Milano"
+    },
+    {
+      "k": "Focus",
+      "v": "Signal processing · Communication systems · Machine learning"
+    },
+    {
+      "k": "Recognition",
+      "v": "Best Paper Award, ACM NanoCom 2026"
+    },
+    {
+      "k": "Based in",
+      "v": "Milan area, Italy"
+    }
+  ]
+}

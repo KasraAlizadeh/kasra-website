@@ -1,0 +1,40 @@
+---
+import fs from "node:fs";
+import path from "node:path";
+import SectionHead from "./SectionHead.astro";
+import { SITE } from "../data";
+// The photo is optional: until public/images/profile.jpg exists, a monogram is shown.
+const hasPhoto = !!SITE.photo && fs.existsSync(path.join(process.cwd(), "public", SITE.photo));
+const initials = SITE.name.split(/\s+/).map((w) => w[0]).join("").slice(0, 2);
+---
+<section class="blk" id="about">
+  <div class="wrap">
+    <SectionHead ch="CH" num="0" color="var(--accent)" title="About" sub="Who's behind the receiver." />
+    <div class="about">
+      <figure class="portrait">
+        <div class="vf">
+          {hasPhoto
+            ? <img src={SITE.photo} alt={SITE.photoAlt} width="640" height="800" loading="lazy" decoding="async" />
+            : <div class="mono" role="img" aria-label={SITE.photoAlt}><span>{initials}</span></div>}
+          <span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>
+        </div>
+        <figcaption><span>OPERATOR</span><b>{SITE.name}</b><span>{SITE.location}</span></figcaption>
+      </figure>
+
+      <div class="about-body">
+        <p class="about-lede">{SITE.profile}</p>
+
+        <div class="interests panel">
+          <h3>Research interests</h3>
+          <p>{SITE.researchInterests}</p>
+          {SITE.interestTags.length > 0 && <ul class="itags">{SITE.interestTags.map((t) => <li>{t}</li>)}</ul>}
+        </div>
+
+        <dl class="facts">
+          {SITE.facts.map((f) => <div><dt>{f.k}</dt><dd>{f.v}</dd></div>)}
+        </dl>
+
+      </div>
+    </div>
+  </div>
+</section>

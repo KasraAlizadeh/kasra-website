@@ -1,0 +1,41 @@
+{
+  "publications": [
+    {
+      "id": "nanocom26",
+      "featured": true,
+      "title": "Plant Stress Decoding from Electrophysiological Signals: A Bioelectrical Communication Framework",
+      "authors": [],
+      "venue": "ACM NanoCom 2026",
+      "venueFull": "Proceedings of the 13th ACM International Conference on Nanoscale Computing and Communication (NanoCom '26)",
+      "date": "2026-09-21",
+      "doi": "10.1145/3818305.3830252",
+      "award": "Best Paper Award",
+      "summary": "This paper treats plant stress detection as a receiver-side decoding problem over a biological communication channel. The plant acts as a biological transmitter whose electrophysiological signals encode its responses to environmental stress. We propose a receiver architecture and evaluate it on electrophysiological recordings under multiple stress conditions.",
+      "metrics": [
+        {
+          "k": "F1 · macro",
+          "v": "0.9879",
+          "unit": ""
+        },
+        {
+          "k": "ROC-AUC",
+          "v": "0.9992",
+          "unit": ""
+        },
+        {
+          "k": "PR-AUC",
+          "v": "0.9993",
+          "unit": ""
+        },
+        {
+          "k": "Inference",
+          "v": "≈0.10",
+          "unit": "ms/seg"
+        }
+      ],
+      "pdf": "",
+      "slides": "",
+      "post": "listening-to-plants"
+    }
+  ]
+}

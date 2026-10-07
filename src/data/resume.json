@@ -1,0 +1,188 @@
+{
+  "experience": [
+    {
+      "when": "Jun 2022 – Jul 2023",
+      "title": "Software Developer",
+      "org": "Seagull Cybernetics",
+      "channel": "ch1",
+      "points": [
+        "Built cloud-native AWS applications, contributing to AI/ML model integration, backend development, and system optimization.",
+        "Developed core functionality in Python, supplemented with Java components where aligned with architectural requirements."
+      ]
+    },
+    {
+      "when": "Jul 2021 – Aug 2021",
+      "title": "Data Scientist Intern",
+      "org": "DataCoLab",
+      "channel": "ch1",
+      "points": [
+        "Worked on ML and deep learning projects on voice data, applying both classical ML models and modern neural architectures.",
+        "Developed and evaluated solutions in Python and TensorFlow, with signal-processing libraries for feature extraction and training."
+      ]
+    },
+    {
+      "when": "Sep 2020 – Jul 2021",
+      "title": "Research Assistant",
+      "org": "Azad University, Tehran North Branch",
+      "channel": "ch3",
+      "points": [
+        "Built an SVM classifier for diabetes from clinical patient data, tuning hyperparameters with a binary Bat metaheuristic.",
+        "Responsible for model design, feature preparation, and evaluation to ensure reliable and reproducible results."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "when": "2023 – Present · Milan, Italy",
+      "title": "M.Sc. Telecommunication Engineering",
+      "org": "Politecnico di Milano",
+      "channel": "ch4",
+      "points": [
+        "Major: Signals & Data Analysis.",
+        "Projects with Nokia on optical networks and channel coding."
+      ]
+    },
+    {
+      "when": "2017 – 2021 · Tehran, Iran",
+      "title": "B.Eng. Computer Engineering",
+      "org": "Azad University, Tehran North Branch",
+      "channel": "ch4",
+      "points": [
+        "Major: Software Engineering."
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "year": "2025 · OPTICAL NETWORKS",
+      "title": "Optical Carrier ODU Assignment Optimization",
+      "with": "Politecnico di Milano & Nokia · Communication Network Design",
+      "channel": "ch2",
+      "viz": "odu",
+      "text": "Assigns ODUs to multi-carrier transponder framers under hardware constraints to improve optical data transmission. I implemented and compared six optimization methods, with smart traffic generation and performance visualizations.",
+      "tags": [
+        "ILP",
+        "Greedy",
+        "GA",
+        "SA",
+        "PSO",
+        "ACO",
+        "Python"
+      ],
+      "post": "packing-optical-carriers",
+      "code": "",
+      "image": "",
+      "imageAlt": ""
+    },
+    {
+      "year": "2024 · CHANNEL CODING",
+      "title": "Impact of Non-Gaussian Noise on LDPC Performance",
+      "with": "Politecnico di Milano & Nokia",
+      "channel": "ch1",
+      "viz": "qam",
+      "text": "MATLAB simulations of BER vs. SNR for LDPC-coded 64-QAM under AWGN and Student's t-distributed noise. LDPC codes stay robust under Gaussian noise but need higher SNR in non-Gaussian environments.",
+      "tags": [
+        "LDPC",
+        "64-QAM",
+        "BER / SNR",
+        "AWGN",
+        "t-noise",
+        "MATLAB"
+      ],
+      "post": "when-noise-stops-being-gaussian",
+      "code": "",
+      "image": "",
+      "imageAlt": ""
+    }
+  ],
+  "skills": [
+    {
+      "name": "Programming",
+      "band": "A",
+      "channel": "ch2",
+      "items": [
+        "Python",
+        "Java",
+        "R",
+        "JavaScript",
+        "MATLAB"
+      ]
+    },
+    {
+      "name": "ML / Deep Learning",
+      "band": "B",
+      "channel": "ch3",
+      "items": [
+        "PyTorch",
+        "TensorFlow",
+        "Scikit-Learn"
+      ]
+    },
+    {
+      "name": "Data Analysis",
+      "band": "C",
+      "channel": "ch1",
+      "items": [
+        "NumPy",
+        "SciPy",
+        "Matplotlib",
+        "NLTK"
+      ]
+    },
+    {
+      "name": "Backend & Cloud",
+      "band": "D",
+      "channel": "ch4",
+      "items": [
+        "Django",
+        "FastAPI",
+        "Flask",
+        "Spring",
+        "AWS"
+      ]
+    },
+    {
+      "name": "Telecom & Signals",
+      "band": "E",
+      "channel": "ch2",
+      "items": [
+        "Signal processing",
+        "LDPC coding",
+        "QAM",
+        "BER / SNR analysis",
+        "Optical transport (ODU)",
+        "ILP & metaheuristics"
+      ]
+    },
+    {
+      "name": "Data & Systems",
+      "band": "F",
+      "channel": "ch1",
+      "items": [
+        "MySQL",
+        "MongoDB",
+        "macOS",
+        "Linux",
+        "Windows"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "name": "Persian",
+      "level": "Native"
+    },
+    {
+      "name": "English",
+      "level": "B2"
+    },
+    {
+      "name": "French",
+      "level": "B1"
+    },
+    {
+      "name": "Italian",
+      "level": "A2"
+    }
+  ]
+}

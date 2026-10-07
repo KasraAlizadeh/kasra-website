@@ -1,0 +1,63 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Trace from "../components/Trace.astro";
+import Research from "../components/Research.astro";
+import Projects from "../components/Projects.astro";
+import Skills from "../components/Skills.astro";
+import Contact from "../components/Contact.astro";
+import SectionHead from "../components/SectionHead.astro";
+import PostCard from "../components/PostCard.astro";
+import { getPosts } from "../scripts/utils";
+import About from "../components/About.astro";
+import { SITE, PUBLICATIONS, PROFILE_LINKS } from "../data";
+
+const latest = (await getPosts()).slice(0, 3);
+const PAPER = PUBLICATIONS.find((p) => p.featured) ?? PUBLICATIONS[0];
+const site = Astro.site!;
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: SITE.name,
+    jobTitle: SITE.jobTitle,
+    url: site.href,
+    email: `mailto:${SITE.email}`,
+    image: new URL(SITE.ogImage, site).href,
+    sameAs: PROFILE_LINKS.map((l) => l.href),
+    description: SITE.profile,
+    address: { "@type": "PostalAddress", addressLocality: "Cologno Monzese", addressRegion: "MI", addressCountry: "IT" },
+    alumniOf: [
+      { "@type": "CollegeOrUniversity", name: "Politecnico di Milano" },
+      { "@type": "CollegeOrUniversity", name: "Islamic Azad University, Tehran North Branch" },
+    ],
+    award: `${PAPER.award}, ${PAPER.venue}`,
+    knowsAbout: ["Signal processing", "Communication systems", "Machine learning", "Software development"],
+  },
+  ...PUBLICATIONS.map((p) => ({
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    headline: p.title,
+    datePublished: p.date,
+    author: (p.authors.length ? p.authors : [SITE.name]).map((name) => ({ "@type": "Person", name })),
+    ...(p.doi ? { sameAs: `https://doi.org/${p.doi}` } : {}),
+    publisher: { "@type": "Organization", name: "ACM" },
+  })),
+];
+---
+<BaseLayout jsonLd={jsonLd}>
+  <Hero />
+  <About />
+  <Trace />
+  <Research />
+  <Projects />
+  <Skills />
+  <section class="blk" id="blog">
+    <div class="wrap">
+      <SectionHead ch="LOG" color="var(--ink-2)" title="Latest from the blog" sub="Notes on signals, communication systems, and building AI software." />
+      <div class="posts">{latest.map((post) => <PostCard post={post} />)}</div>
+      <div class="more-row"><a class="btn" href="/blog/">All posts →</a></div>
+    </div>
+  </section>
+  <Contact />
+</BaseLayout>

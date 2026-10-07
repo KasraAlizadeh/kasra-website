@@ -1,0 +1,53 @@
+---
+import Icon from "./Icon.astro";
+import { SITE, PROFILE_LINKS } from "../data";
+// Order: professional networks first, then research profiles.
+const order = ["linkedin", "github", "scholar", "orcid"];
+const links = [...PROFILE_LINKS].sort((a, b) => order.indexOf(a.key) - order.indexOf(b.key));
+---
+<section class="blk" id="contact">
+  <div class="wrap">
+    <div class="panel contact">
+      <div class="contact-copy">
+        <h2>Let's get in touch</h2>
+        <p>Open to conversations about AI software, signal processing, and communication systems, in industry or research.</p>
+        <p class="where"><Icon name="pin" size={15} />{SITE.location}</p>
+      </div>
+      <div class="contact-acts">
+        <div class="mail-row">
+          <a class="btn primary big" href={`mailto:${SITE.email}`}><Icon name="mail" />Email me</a>
+          <button class="btn big" type="button" id="copy-email" data-email={SITE.email} aria-live="polite">Copy email address</button>
+        </div>
+        <div class="link-grid">
+          {links.map((l) => (
+            <a class="lbtn" href={l.href} target="_blank" rel="me noopener">
+              <Icon name={l.key} size={18} />
+              <span>{l.label}</span>
+              <Icon name="arrow" size={16} />
+            </a>
+          ))}
+          <a class="lbtn wide" href={SITE.cv} download>
+            <Icon name="download" size={18} />
+            <span>Download CV</span>
+            <Icon name="arrow" size={16} />
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const btn = document.getElementById("copy-email") as HTMLButtonElement | null;
+  btn?.addEventListener("click", async () => {
+    const email = btn.dataset.email ?? "";
+    const label = btn.textContent;
+    try {
+      await navigator.clipboard.writeText(email);
+      btn.textContent = "Copied ✓";
+    } catch {
+      btn.textContent = email;
+    }
+    setTimeout(() => (btn.textContent = label), 2000);
+  });
+</script>

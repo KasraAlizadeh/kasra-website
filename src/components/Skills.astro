@@ -1,0 +1,23 @@
+---
+import SectionHead from "./SectionHead.astro";
+import { RESUME, channelColor } from "../data";
+const SKILLS = RESUME.skills;
+const LANGUAGES = RESUME.languages;
+---
+<section class="blk" id="skills">
+  <div class="wrap">
+    <SectionHead ch="CH" num="4" color="var(--ch4)" title="Skills spectrum" sub="The tools I use, grouped by band." />
+    <div class="bands">
+      {SKILLS.map((s) => (
+        <div class="band" style={`--c:${channelColor(s.channel)}`}>
+          <h3 class="bh">{s.name} <em>Band {s.band}</em></h3>
+          <ul>{s.items.map((i) => <li>{i}</li>)}</ul>
+        </div>
+      ))}
+    </div>
+    <h3 class="sub-h">Languages</h3>
+    <ul class="lang">
+      {LANGUAGES.map((l) => <li class="panel"><b>{l.name}</b><span>{l.level}</span></li>)}
+    </ul>
+  </div>
+</section>

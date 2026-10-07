@@ -1,0 +1,110 @@
+---
+import SectionHead from "./SectionHead.astro";
+import Icon from "./Icon.astro";
+import { PUBLICATIONS, SITE, bibtex, plainCitation, type Publication } from "../data";
+
+const featured = PUBLICATIONS.find((p) => p.featured) ?? PUBLICATIONS[0];
+const others = PUBLICATIONS.filter((p) => p !== featured);
+const fmt = (iso: string) => new Date(iso + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+const isMe = (a: string) => a.trim().toLowerCase() === SITE.name.toLowerCase();
+const hasAuthors = (p: Publication) => p.authors.length > 0;
+---
+<section class="blk" id="research">
+  <div class="wrap">
+    <SectionHead ch="CH" num="2" color="var(--ch3)" title="Research" sub="Using communication theory on biological signals. The plant is the transmitter; I design the receiver." />
+    {featured && (
+      <article class="panel paper">
+        <div class="paper-meta">
+          {featured.award && <span class="award"><svg width="13" height="13" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1.5l1.9 3.9 4.3.6-3.1 3 .7 4.3L8 11.3l-3.8 2 .7-4.3-3.1-3 4.3-.6z" fill="currentColor"></path></svg>{featured.award}</span>}
+          <span>{featured.venue}</span><span aria-hidden="true">·</span><time datetime={featured.date}>{fmt(featured.date)}</time>
+        </div>
+        <h3>{featured.title}</h3>
+        {hasAuthors(featured) && (
+          <p class="authors">{featured.authors.map((a, i) => <>{i > 0 && ", "}{isMe(a) ? <strong>{a}</strong> : a}</>)}</p>
+        )}
+        <p class="venue-full">{featured.venueFull}</p>
+        <p>{featured.summary}</p>
+        {featured.id === "nanocom26" && (
+          <div class="pipe" role="img" aria-label="Receiver pipeline: plant transmitter, bioelectrical channel, then interference suppression, finite-horizon temporal integration, multi-domain feature embedding and a histogram-based gradient boosting detector, ending in a stress decision.">
+            <div class="stage"><span>Tx</span><div class="blkx tx"><b>Plant</b><small>biological transmitter</small></div></div>
+            <div class="stage"><span>Channel</span><div class="blkx chn"><b>Bioelectrical</b><small>electrophysiological signal</small></div></div>
+            <div class="stage rxs"><span>Receiver</span>
+              <div class="rx">
+                <div class="blkx"><b>Suppress</b><small>interference suppression</small></div>
+                <div class="blkx"><b>Integrate</b><small>finite-horizon temporal integration</small></div>
+                <div class="blkx"><b>Embed</b><small>statistical · temporal · spectral · multiscale</small></div>
+                <div class="blkx"><b>Detect</b><small>histogram gradient boosting ≈ likelihood ratio</small></div>
+              </div>
+            </div>
+            <div class="stage"><span>Output</span><div class="blkx out"><b>Decision</b><small>stress condition</small></div></div>
+          </div>
+        )}
+        {featured.metrics.length > 0 && (
+          <dl class="measure" aria-label="Measured results">
+            {featured.metrics.map((m) => <div><dt>{m.k}</dt><dd>{m.v}{m.unit && <small>{m.unit}</small>}</dd></div>)}
+          </dl>
+        )}
+        <div class="paper-foot">
+          {featured.doi && <a class="btn primary" href={`https://doi.org/${featured.doi}`} target="_blank" rel="noopener"><Icon name="doc" />Read the paper</a>}
+          {featured.pdf && <a class="btn" href={featured.pdf} target="_blank" rel="noopener"><Icon name="doc" />PDF</a>}
+          {featured.slides && <a class="btn" href={featured.slides} target="_blank" rel="noopener"><Icon name="slides" />Slides</a>}
+          {hasAuthors(featured) && <button class="btn cite-btn" type="button" data-cite={featured.id}><Icon name="quote" />Cite</button>}
+          {featured.post && <a class="btn" href={`/blog/${featured.post}/`}>The story behind it</a>}
+          {featured.doi && <span class="doi">DOI <a href={`https://doi.org/${featured.doi}`} target="_blank" rel="noopener">{featured.doi}</a></span>}
+        </div>
+        {hasAuthors(featured) && (
+          <div class="cite" id={`cite-${featured.id}`} hidden>
+            <div class="cite-tabs" role="tablist">
+              <button type="button" role="tab" aria-selected="true" data-fmt="bib">BibTeX</button>
+              <button type="button" role="tab" aria-selected="false" data-fmt="txt">Text</button>
+              <button type="button" class="copy">Copy</button>
+            </div>
+            <pre data-fmt="bib">{bibtex(featured)}</pre>
+            <pre data-fmt="txt" hidden>{plainCitation(featured)}</pre>
+          </div>
+        )}
+      </article>
+    )}
+
+    {others.length > 0 && (
+      <>
+        <h3 class="sub-h">More publications</h3>
+        <ol class="pubs">
+          {others.map((p) => (
+            <li class="panel">
+              <div class="pm"><time datetime={p.date}>{p.date.slice(0, 4)}</time><span>{p.venue}</span>{p.award && <span class="award sm">{p.award}</span>}</div>
+              <b>{p.doi ? <a href={`https://doi.org/${p.doi}`} target="_blank" rel="noopener">{p.title}</a> : p.title}</b>
+              {hasAuthors(p) && <span class="authors">{p.authors.map((a, i) => <>{i > 0 && ", "}{isMe(a) ? <strong>{a}</strong> : a}</>)}</span>}
+            </li>
+          ))}
+        </ol>
+      </>
+    )}
+
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>(".cite-btn").forEach((btn) => {
+    const box = document.getElementById(`cite-${btn.dataset.cite}`);
+    if (!box) return;
+    btn.setAttribute("aria-expanded", "false");
+    btn.addEventListener("click", () => {
+      box.hidden = !box.hidden;
+      btn.setAttribute("aria-expanded", String(!box.hidden));
+    });
+    const tabs = box.querySelectorAll<HTMLButtonElement>("[data-fmt]");
+    const pres = box.querySelectorAll<HTMLElement>("pre[data-fmt]");
+    tabs.forEach((t) => t.tagName === "BUTTON" && t.addEventListener("click", () => {
+      tabs.forEach((x) => x.tagName === "BUTTON" && x.setAttribute("aria-selected", String(x === t)));
+      pres.forEach((p) => (p.hidden = p.dataset.fmt !== t.dataset.fmt));
+    }));
+    const copy = box.querySelector<HTMLButtonElement>(".copy");
+    copy?.addEventListener("click", async () => {
+      const visible = Array.from(pres).find((p) => !p.hidden);
+      try { await navigator.clipboard.writeText(visible?.textContent ?? ""); copy.textContent = "Copied"; }
+      catch { copy.textContent = "Select and copy"; }
+      setTimeout(() => (copy.textContent = "Copy"), 1600);
+    });
+  });
+</script>

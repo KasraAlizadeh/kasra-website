@@ -1,0 +1,44 @@
+---
+import Icon from "./Icon.astro";
+import { SITE } from "../data";
+---
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-copy">
+      <div class="eyebrow">
+        <span style="--c:var(--ch1)"><b>CH1</b> AI Software Developer</span>
+        <span style="--c:var(--ch2)"><b>CH2</b> Telecommunication Engineer</span>
+      </div>
+      <h1 class="name"><span>Kasra</span><span class="ln2">Alizadeh</span></h1>
+      <p class="lede">{SITE.heroLine}</p>
+      <div class="cta">
+        <a class="btn primary" href="/#research"><Icon name="pulse" />Award-winning research</a>
+        <a class="btn" href={SITE.cv} download><Icon name="download" />Download CV</a>
+        <a class="btn" href="/#contact"><Icon name="mail" />Contact</a>
+      </div>
+    </div>
+
+    <figure class="scope" aria-label="Animated oscilloscope: a noisy signal is decoded into a clean one">
+      <div class="scope-top"><span class="model">KA-2026 · Receiver</span><span class="loc"><span class="led"></span>Politecnico di Milano</span></div>
+      <div class="screen">
+        <canvas id="scope" width="1000" height="700"></canvas>
+        <div class="ro tl"><span class="c1">CH1 RAW</span> <span class="dim hide-s">200 mV/div</span><br /><span class="c2">CH2 DECODED</span> <span class="dim hide-s">200 mV/div</span></div>
+        <div class="ro tr hide-s"><span class="dim">TIME</span> 50 ms/div<br /><span class="dim">TRIG</span> <span class="c2">CH2 ↑</span></div>
+        <div class="ro bl" id="ro-mode"><span class="dim">MODE</span> <span class="c2">DECODE</span></div>
+        <div class="ro br hide-s"><span class="dim">F1</span> <span class="c2">0.9879</span> · <span class="dim">AUC</span> <span class="c2">0.9992</span></div>
+      </div>
+      <figcaption class="scope-ctl">
+        <div class="seg" role="group" aria-label="Signal view">
+          <button type="button" data-mode="raw" aria-pressed="false">Raw</button>
+          <button type="button" data-mode="dec" aria-pressed="true">Decoded</button>
+        </div>
+        <span class="note">A receiver's job: pull a clean message out of a noisy channel.</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>
+
+<script>
+  import { mountScope } from "../scripts/scope";
+  mountScope();
+</script>

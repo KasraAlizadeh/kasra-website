@@ -1,0 +1,9 @@
+---
+interface Props { ch: string; num?: string; title: string; sub?: string; color: string; as?: "h1" | "h2" }
+const { ch, num, title, sub, color, as: Tag = "h2" } = Astro.props;
+---
+<div class="sec-head" style={`--c:${color}`}>
+  <div class="chip-ch">{ch}{num && <strong>{num}</strong>}</div>
+  <Tag>{title}</Tag>
+  {sub && <p>{sub}</p>}
+</div>

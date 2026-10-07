@@ -1,0 +1,63 @@
+---
+import SectionHead from "./SectionHead.astro";
+import { TIMELINE, NOW } from "../data/timeline";
+import { RESUME, channelColor } from "../data";
+const EXPERIENCE = RESUME.experience;
+const EDUCATION = RESUME.education;
+const { from, to, rows } = TIMELINE;
+const pos = (y: number) => ((y - from) / (to - from)) * 100;
+const years = Array.from({ length: Math.floor(to) - from + 1 }, (_, i) => from + i);
+---
+<section class="blk" id="trace">
+  <div class="wrap">
+    <SectionHead ch="CH" num="1" color="var(--ch1)" title="Signal trace, 2017 → now" sub="My path, read like a logic analyzer: each line goes high while that thing was active." />
+    <div class="panel la-panel">
+      <div class="la" role="img" aria-label="Timeline of education, industry, research and projects from 2017 to 2026">
+        <div class="la-axis"><div></div><div class="ticks">
+          {years.map((y) => <span class={y % 2 ? "odd" : ""} style={`left:${pos(y)}%`}>{y}</span>)}
+        </div></div>
+        {rows.map((r) => (
+          <div class="la-row" style={`--c:${r.color}`}>
+            <div class="lab"><i></i>{r.label}</div>
+            <div class="track">
+              {r.segs.map((s) => {
+                const l = pos(s.a);
+                const w = Math.max(pos(s.b) - l, 0.9);
+                const cls = ["pulse", s.open && "open", s.tiny && "tiny", s.end && "end"].filter(Boolean).join(" ");
+                return <div class={cls} style={`left:${l}%;width:${w}%`} title={`${s.t} (${s.when})`}><span class="pl">{s.t}</span></div>;
+              })}
+              <div class="nowline" style={`left:${pos(NOW)}%`}></div>
+            </div>
+            <ul class="seg-list">
+              {r.segs.map((s) => <li><b>{s.when}</b> {s.t}</li>)}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <div class="la-cap"><span>X: time (years)</span><span>HIGH = active</span><span>Cursor: now</span></div>
+    </div>
+
+    <h3 class="sub-h">Experience</h3>
+    <div class="xp">
+      {EXPERIENCE.map((c) => (
+        <article class="panel" style={`--c:${channelColor(c.channel)}`}>
+          <div class="when">{c.when}</div>
+          <h4>{c.title}</h4>
+          <div class="org">{c.org}</div>
+          <ul>{c.points.map((p) => <li>{p}</li>)}</ul>
+        </article>
+      ))}
+    </div>
+    <h3 class="sub-h">Education</h3>
+    <div class="xp">
+      {EDUCATION.map((c) => (
+        <article class="panel" style={`--c:${channelColor(c.channel)}`}>
+          <div class="when">{c.when}</div>
+          <h4>{c.title}</h4>
+          <div class="org">{c.org}</div>
+          <ul>{c.points.map((p) => <li>{p}</li>)}</ul>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

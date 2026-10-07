@@ -1,0 +1,159 @@
+# Admin dashboard configuration (Sveltia CMS). Open https://YOUR-DOMAIN/admin/
+# 👉 If you name the repository differently, change "kasra-website" below.
+backend:
+  name: github
+  repo: KasraAlizadeh/kasra-website
+  branch: main
+  commit_messages:
+    create: "Add {{collection}} “{{slug}}”"
+    update: "Update {{collection}} “{{slug}}”"
+    delete: "Delete {{collection}} “{{slug}}”"
+    uploadMedia: "Upload “{{path}}”"
+    deleteMedia: "Delete “{{path}}”"
+
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+collections:
+  # ---------------- Blog ----------------
+  - name: blog
+    label: Blog posts
+    label_singular: Blog post
+    folder: src/content/blog
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    sortable_fields: [pubDate, title]
+    summary: "{{title}} · {{pubDate}}"
+    fields:
+      - { name: title, label: Title, widget: string }
+      - { name: description, label: Summary (shown on cards and in link previews), widget: text }
+      - { name: pubDate, label: Publish date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+      - { name: updatedDate, label: Updated date (optional), widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false, required: false }
+      - { name: tags, label: Tags, widget: list, default: [], field: { name: tag, label: Tag, widget: string } }
+      - { name: draft, label: Draft (hidden from the live site), widget: boolean, default: false }
+      - { name: body, label: Post, widget: markdown }
+
+  # ---------------- Site content ----------------
+  - name: content
+    label: Site content
+    editor: { preview: false }
+    files:
+      - name: settings
+        label: Profile, photo & links
+        file: src/data/settings.json
+        format: json
+        fields:
+          - { name: name, label: Name, widget: string }
+          - { name: jobTitle, label: Job title, widget: string }
+          - { name: description, label: Search description, widget: text }
+          - { name: heroLine, label: Hero line (under your name), widget: text }
+          - { name: profile, label: Profile paragraph (About), widget: text }
+          - { name: researchInterests, label: Research interests, widget: text }
+          - { name: interestTags, label: Research interest tags, widget: list, field: { name: tag, label: Tag, widget: string } }
+          - { name: email, label: Email, widget: string }
+          - { name: location, label: Location, widget: string }
+          - name: photo
+            label: Profile photo (portrait, at least 800×1000 px)
+            widget: image
+            required: false
+            media_folder: /public/images
+            public_folder: /images
+          - { name: photoAlt, label: Photo description, widget: string }
+          - { name: cv, label: CV file path, widget: string }
+          - name: links
+            label: Profile links (leave empty to hide)
+            widget: object
+            fields:
+              - { name: linkedin, label: LinkedIn URL, widget: string, required: false }
+              - { name: github, label: GitHub URL, widget: string, required: false }
+              - { name: scholar, label: Google Scholar URL, widget: string, required: false }
+              - { name: orcid, label: ORCID URL (https://orcid.org/0000-…), widget: string, required: false }
+          - name: facts
+            label: Quick facts (About)
+            widget: list
+            fields:
+              - { name: k, label: Label, widget: string }
+              - { name: v, label: Value, widget: string }
+
+      - name: resume
+        label: Experience, education, projects & skills
+        file: src/data/resume.json
+        format: json
+        fields:
+          - name: experience
+            label: Experience
+            widget: list
+            summary: "{{title}} · {{org}}"
+            fields: &card
+              - { name: when, label: Dates, widget: string }
+              - { name: title, label: Title, widget: string }
+              - { name: org, label: Organization, widget: string }
+              - { name: channel, label: Color, widget: select, options: [ch1, ch2, ch3, ch4], default: ch1 }
+              - { name: points, label: Bullet points, widget: list, field: { name: point, label: Point, widget: text } }
+          - { name: education, label: Education, widget: list, summary: "{{title}} · {{org}}", fields: *card }
+          - name: projects
+            label: Projects
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - { name: year, label: Year and area, widget: string }
+              - { name: title, label: Title, widget: string }
+              - { name: with, label: Partners / course, widget: string }
+              - { name: channel, label: Color, widget: select, options: [ch1, ch2, ch3, ch4], default: ch2 }
+              - { name: viz, label: Card graphic, widget: select, options: [odu, qam], default: odu }
+              - { name: text, label: Description, widget: text }
+              - { name: tags, label: Tags, widget: list, field: { name: tag, label: Tag, widget: string } }
+              - { name: post, label: Blog post slug (optional), widget: string, required: false }
+              - { name: code, label: Code URL (GitHub, optional), widget: string, required: false }
+              - { name: image, label: Result figure (optional), widget: image, required: false }
+              - { name: imageAlt, label: Figure description, widget: string, required: false }
+          - name: skills
+            label: Skills
+            widget: list
+            summary: "{{name}}"
+            fields:
+              - { name: name, label: Group, widget: string }
+              - { name: band, label: Band letter, widget: string }
+              - { name: channel, label: Color, widget: select, options: [ch1, ch2, ch3, ch4], default: ch2 }
+              - { name: items, label: Skills, widget: list, field: { name: item, label: Skill, widget: string } }
+          - name: languages
+            label: Languages
+            widget: list
+            summary: "{{name}} · {{level}}"
+            fields:
+              - { name: name, label: Language, widget: string }
+              - { name: level, label: Level, widget: string }
+
+      - name: publications
+        label: Publications
+        file: src/data/publications.json
+        format: json
+        fields:
+          - name: publications
+            label: Publications
+            widget: list
+            summary: "{{title}}"
+            fields:
+              - { name: id, label: Short ID (no spaces), widget: string }
+              - { name: featured, label: Feature on the home page, widget: boolean, default: false }
+              - { name: title, label: Title, widget: string }
+              - { name: authors, label: Authors (in paper order, full names), widget: list, field: { name: author, label: Author, widget: string } }
+              - { name: venue, label: Venue (short), widget: string }
+              - { name: venueFull, label: Venue (full), widget: string }
+              - { name: date, label: Date, widget: datetime, format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false }
+              - { name: doi, label: DOI, widget: string, required: false }
+              - { name: award, label: Award (optional), widget: string, required: false }
+              - { name: summary, label: Summary, widget: text }
+              - name: metrics
+                label: Key results
+                widget: list
+                required: false
+                fields:
+                  - { name: k, label: Metric, widget: string }
+                  - { name: v, label: Value, widget: string }
+                  - { name: unit, label: Unit, widget: string, required: false }
+              - { name: pdf, label: PDF URL (optional), widget: string, required: false }
+              - { name: slides, label: Slides URL (optional), widget: string, required: false }
+              - { name: post, label: Blog post slug (optional), widget: string, required: false }

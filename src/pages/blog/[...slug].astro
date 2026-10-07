@@ -1,0 +1,69 @@
+---
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPosts, formatDate, readingTime } from "../../scripts/utils";
+import fs from "node:fs";
+import path from "node:path";
+import { SITE } from "../../data";
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { slug: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+
+const { post, newer, older } = Astro.props;
+const { Content } = await render(post);
+const hasPhoto = !!SITE.photo && fs.existsSync(path.join(process.cwd(), "public", SITE.photo));
+const initials = SITE.name.split(/\s+/).map((w) => w[0]).join("").slice(0, 2);
+const url = new URL(`/blog/${post.id}/`, Astro.site).href;
+const share = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.pubDate.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+  author: { "@type": "Person", name: SITE.name, url: new URL("/", Astro.site).href },
+  mainEntityOfPage: url,
+  keywords: post.data.tags.join(", "),
+};
+---
+<BaseLayout title={post.data.title} description={post.data.description} type="article" publishedTime={post.data.pubDate} jsonLd={jsonLd}>
+  <article class="post wrap">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/blog/">Blog</a></nav>
+    <header class="post-head">
+      <div class="pm">
+        <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+        <span aria-hidden="true">·</span><span>{readingTime(post.body ?? "")}</span>
+        {post.data.updatedDate && <><span aria-hidden="true">·</span><span>Updated {formatDate(post.data.updatedDate)}</span></>}
+      </div>
+      <h1>{post.data.title}</h1>
+      <p class="dek">{post.data.description}</p>
+      <div class="tags">{post.data.tags.map((t) => <a class="tag" href={`/blog/?tag=${encodeURIComponent(t)}`}>{t}</a>)}</div>
+    </header>
+    <div class="prose"><Content /></div>
+    <footer class="post-foot">
+      <div class="author panel">
+        <div class="who">
+          {hasPhoto ? <img src={SITE.photo} alt="" width="56" height="56" loading="lazy" /> : <span class="av" aria-hidden="true">{initials}</span>}
+          <div>
+            <b>{SITE.name}</b>
+            <span>{SITE.jobTitle}</span>
+          </div>
+        </div>
+        <div class="author-acts">
+          <a class="btn small" href="/#contact">Get in touch</a>
+          <a class="btn small" href={share} target="_blank" rel="noopener">Share on LinkedIn</a>
+        </div>
+      </div>
+      <nav class="pn" aria-label="More posts">
+        {newer ? <a class="panel" href={`/blog/${newer.id}/`}><span>← Newer</span><b>{newer.data.title}</b></a> : <span></span>}
+        {older ? <a class="panel older" href={`/blog/${older.id}/`}><span>Older →</span><b>{older.data.title}</b></a> : <span></span>}
+      </nav>
+    </footer>
+  </article>
+</BaseLayout>

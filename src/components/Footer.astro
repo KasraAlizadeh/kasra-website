@@ -1,0 +1,15 @@
+---
+import { SITE } from "../data";
+const year = new Date().getFullYear();
+---
+<footer class="foot">
+  <div class="wrap">
+    <span>© {year} {SITE.name}</span>
+    <nav aria-label="Footer">
+      <a href="/blog/">Blog</a>
+      <a href="/rss.xml">RSS</a>
+      <a href="/#contact">Contact</a>
+      <a href={SITE.cv} download>CV (PDF)</a>
+    </nav>
+  </div>
+</footer>
